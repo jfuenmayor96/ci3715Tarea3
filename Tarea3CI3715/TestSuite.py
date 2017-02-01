@@ -9,28 +9,28 @@ import unittest
 from BilleteraElectronica import *
 
 
-
 class Test(unittest.TestCase):
 
+    # Se inicializa una instancia de BilleteraElectronica con la cual se van a 
+    #realizar los tests unitarios.
+    def setUp(self):
+        self.billetera = BilleteraElectronica(1,"julio","fuenmayor",24818828)
+        
+    def testIdentificadorDeInstanciaValida(self):
+        assert(self.billetera.validIdentifier()), "Identificador de instancia inválido."
+        
+    def testNombreValido(self):
+        assert(self.billetera.validName()), "Atributo nombre inválido."
 
+    def testApellidoValido(self):
+        assert(self.billetera.validSurname()), "Atributo apellido inválido."
+        
+    def testCIValida(self):
+        assert(self.billetera.validID()), "Atributo CI inválido."
+        
     
-    def testIdentificadorDeInstancia(self):
         
-        billetera = BilleteraElectronica(1310488)
         
-        assert(billetera.identificador is not None), "Usted introdujo un identificador nulo."
-        self.assertEqual(billetera.identificador, 1310488, "El identificador de la instancia es incorrecto.")
-
-    def testDatosDelUsuario(self):
-        
-        billetera = BilleteraElectronica(1310488, "julio", "fuenmayor", 24818828)        
-
-        assert(billetera.nombre is not None and billetera.apellido is not None and billetera.ci is not None), "Usted introdujo un dato personal nulo. "
-        self.assertEqual(billetera.nombre, "julio", "El nombre de la instancia es incorrecto.")
-        self.assertEqual(billetera.apellido, "fuenmayor", "El apellido de la instancia es incorrecto.")
-        self.assertEqual(billetera.ci, 24818828, "La cédula de identidad de la instancia es incorrecto.")
-        
-
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
