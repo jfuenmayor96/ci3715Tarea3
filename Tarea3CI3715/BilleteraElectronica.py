@@ -64,8 +64,14 @@ class BilleteraElectronica():
             self.recargas.append(recarga)
             self.saldoAcumulado += recarga.monto
     
-    def consumo(self):
-        pass 
+    def consumo(self, transaccion):
+        if (transaccion.pin != self.pin):
+            return "PIN invalido"
+        elif (self.saldoAcumulado < transaccion.monto):
+            return "Saldo insuficiente"
+        else:
+            self.consumos.append(transaccion)
+            self.saldoAcumulado -= transaccion.monto
             
             
     

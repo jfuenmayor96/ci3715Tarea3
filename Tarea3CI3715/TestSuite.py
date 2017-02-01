@@ -9,6 +9,7 @@ import unittest
 import datetime
 from BilleteraElectronica import *
 from Recarga import *
+from Transaccion import *
 
 
 class Test(unittest.TestCase):
@@ -45,6 +46,25 @@ class Test(unittest.TestCase):
         recarga = Recarga(1000,datetime.datetime.today())
         self.billetera.recargar(recarga)
         self.assertEquals(1000, self.billetera.saldo())
+        
+    def testConsumoPinInvalido(self):
+        recarga = Recarga(1000,datetime.datetime.today())
+        self.billetera.recargar(recarga)
+        transaccion = Transaccion(4,500,datetime.datetime.today(),"Bodega")
+        self.assertEquals("PIN invalido", self.billetera.consumo(transaccion))
+    
+    def testConsumoSaldoInsuficiente(self):
+        recarga = Recarga(1000,datetime.datetime.today())
+        self.billetera.recargar(recarga)
+        transaccion = Transaccion(1111,1001,datetime.datetime.today(),"Bodega")
+        self.assertEquals("Saldo insuficiente", self.billetera.consumo(transaccion))
+     
+    def testConsumoValido(self):
+        recarga = Recarga(1000,datetime.datetime.today())
+        self.billetera.recargar(recarga)
+        transaccion = Transaccion(1111,500,datetime.datetime.today(),"Bodega")
+        self.billetera.consumo(transaccion)
+        self.assertEquals(500, self.billetera.saldo())
                 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
