@@ -5,7 +5,7 @@ Created on Jan 31, 2017
 @author: Gianni Manilia 12-10903
 '''
 
-class Transacción(object):
+class Transaccion(object):
 
     # El argumento fecha debe ser de tipo date
     def __init__(self, monto, fecha, establecimiento):

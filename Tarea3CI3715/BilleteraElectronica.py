@@ -7,19 +7,20 @@ Created on Jan 31, 2017
 
 class BilleteraElectronica():
 
-    def __init__(self, identificador = None, nombre = None, apellido = None, ci = None):
+    def __init__(self, identificador = None, nombre = None, apellido = None, ci = None, pin = None):
                 
         self.identificador = identificador
         self.nombre = nombre
         self.apellido = apellido
         self.ci = ci
+        self.pin = pin
         
-        # Utilizar objetos del tipo Transacción para llenar los siguiente atributos
-        self.saldo = 0  #Ir actualizando esto a medida que se use la función recargar
+        # Utilizar objetos del tipo Transaccion para llenar los siguiente atributos
+        self.saldoAcumulado = 0  #Ir actualizando esto a medida que se use la funcion recargar
         self.recargas = []
         self.consumos = []
         
-    # Métodos de validación de atributos
+    # Metodos de validacion de atributos
     
     def validName(self):
         if self.nombre.isalpha() and self.nombre is not None:
@@ -45,13 +46,23 @@ class BilleteraElectronica():
         else: 
             return False
         
+    def validPin(self):
+        if isinstance(self.pin, int) and self.pin is not None:
+            return True
+        else: 
+            return False
+        
     # Operaciones financieras
     
     def saldo(self):
-        pass
+        return self.saldoAcumulado
     
-    def recargar(self):
-        pass
+    def recargar(self, recarga):
+        if (recarga.monto < 0 ):
+            return "Monto de recarga invalido"
+        else:
+            self.recargas.append(recarga)
+            self.saldoAcumulado += recarga.monto
     
     def consumo(self):
         pass 
