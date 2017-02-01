@@ -33,39 +33,64 @@ class Test(unittest.TestCase):
         
     def testPinValido(self):
         assert(self.billetera.validPin()), "Atributo PIN invalido."
-        
+    
+    #Caso frontera    
     def testSaldoCero(self):
         self.assertEquals(0, self.billetera.saldo())
-    
-    def testRecargaNegativa(self):
-        recarga = Recarga(-10,datetime.datetime.today())
+        
+    #Caso esquina
+    def testRecargaEsquina1(self):
+        recarga = Recarga(1, datetime.datetime.today())
         self.billetera.recargar(recarga)
-        self.assertEquals("Monto de recarga invalido", self.billetera.recargar(recarga))
-            
+        self.assertEquals(1, self.billetera.saldo())
+
+    #Caso frontera
+    def testRecargaFrontera(self):
+        recarga = Recarga(float('inf'), datetime.datetime.today())
+        self.billetera.recargar(recarga)
+        self.assertEquals(float('inf'), self.billetera.saldo())
+    
+    #Caso esquina
+    def testRecargaEsquina2(self):
+        recarga = Recarga(float('inf')-1, datetime.datetime.today())
+        self.billetera.recargar(recarga)
+        self.assertEquals(float('inf')-1, self.billetera.saldo())
+    
+    #Caso interior            
     def testRecargaPositiva(self):
         recarga = Recarga(1000,datetime.datetime.today())
         self.billetera.recargar(recarga)
         self.assertEquals(1000, self.billetera.saldo())
         
+    #Caso malicioso
+    def testRecargaNegativa(self):
+        recarga = Recarga(-10,datetime.datetime.today())
+        self.billetera.recargar(recarga)
+        self.assertEquals("Monto de recarga invalido", self.billetera.recargar(recarga))
+        
+    #Caso malicioso        
     def testConsumoPinInvalido(self):
         recarga = Recarga(1000,datetime.datetime.today())
         self.billetera.recargar(recarga)
         transaccion = Transaccion(4,500,datetime.datetime.today(),"Bodega")
         self.assertEquals("PIN invalido", self.billetera.consumo(transaccion))
     
+    #Caso malicioso
     def testConsumoSaldoInsuficiente(self):
         recarga = Recarga(1000,datetime.datetime.today())
         self.billetera.recargar(recarga)
         transaccion = Transaccion(1111,1001,datetime.datetime.today(),"Bodega")
         self.assertEquals("Saldo insuficiente", self.billetera.consumo(transaccion))
      
+    #Caso interior
     def testConsumoValido(self):
         recarga = Recarga(1000,datetime.datetime.today())
         self.billetera.recargar(recarga)
         transaccion = Transaccion(1111,500,datetime.datetime.today(),"Bodega")
         self.billetera.consumo(transaccion)
         self.assertEquals(500, self.billetera.saldo())
-                
+        
+                  
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
