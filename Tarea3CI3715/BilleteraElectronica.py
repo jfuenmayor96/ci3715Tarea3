@@ -6,11 +6,10 @@ Created on Jan 31, 2017
 '''
 
 class BilleteraElectronica():
-    '''
-    classdocs
-    '''
 
-
-    def __init__(self, identificador = None):
+    def __init__(self, identificador = None, nombre = None, apellido = None, ci = None):
         self.identificador = identificador
+        self.nombre = nombre
+        self.apellido = apellido
+        self.ci = ci
         
